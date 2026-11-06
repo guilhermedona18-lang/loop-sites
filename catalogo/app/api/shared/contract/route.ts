@@ -1,0 +1,2 @@
+import {env} from '@/lib/runtime';import {validateLookup,privateHeaders} from '@/lib/contracts';
+export async function POST(request:Request){try{const result=await validateLookup(request);if(result.error)return result.error;const object=await env.BUCKET!.get(result.row.contract_key);if(!object)return new Response(null,{status:404});return new Response(object.body,{headers:{...privateHeaders,'Content-Type':'application/pdf','Content-Disposition':'attachment; filename="contrato.pdf"'}});}catch{return Response.json({error:'Download indisponível.'},{status:503});}}

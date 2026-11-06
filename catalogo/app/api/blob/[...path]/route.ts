@@ -1,0 +1,2 @@
+import { env } from "@/lib/runtime";
+export async function GET(_req:Request,{params}:{params:Promise<{path:string[]}>}){const {path}=await params;const key=path.join('/');if(!key.startsWith('veiculos/'))return new Response(null,{status:404});const o=await env.BUCKET!.get(key);if(!o)return new Response(null,{status:404});return new Response(o.body,{headers:{'Content-Type':o.httpMetadata?.contentType||'application/octet-stream','X-Content-Type-Options':'nosniff','Cache-Control':'private, max-age=3600'}});}
