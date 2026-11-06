@@ -1,7 +1,7 @@
 import { ADMIN_COOKIE, SESSION_SECONDS, allowLoginAttempt, checkPassword, makeSessionToken } from '@/lib/admin-session';
 export async function POST(request:Request){
- const url=new URL(request.url);const origin=request.headers.get('origin');
- if(origin && origin!==url.origin)return new Response('Origem inválida',{status:403});
+ const origin=request.headers.get('origin');const host=request.headers.get('host');
+ if(origin && new URL(origin).host!==host)return new Response('Origem inválida',{status:403});
  if(Number(request.headers.get('content-length'))>4096)return new Response(null,{status:413});
  const headers={'Cache-Control':'no-store'};
  try{
