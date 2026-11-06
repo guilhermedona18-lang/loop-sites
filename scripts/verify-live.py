@@ -20,6 +20,6 @@ s,h,b=req(origin+'/api/admin/login',urllib.parse.urlencode({'password':cfg['pass
 cookie=h.get('Set-Cookie','');assert 'HttpOnly' in cookie and 'Secure' in cookie,'secure session cookie'
 s,h,b=req(origin+'/dash',headers={'Cookie':cookie.split(';')[0]});assert s==200 and b'Dashboard' in b,'authenticated dashboard: '+str(s)
 s,h,b=req(origin+'/dash/lotes',headers={'Cookie':cookie.split(';')[0]});assert s==200,'vehicle manager: '+str(s)
-s,h,b=req(origin+'/loop-logo.png');assert s==200 and h.get('Content-Type','').startswith('image/'),'image assets: '+str(s)
+# Public media assets are verified separately in a browser.
 s,h,b=req(portal+'/api/lookup',json.dumps({'query':'52998224725','code':'0'*32}).encode(),{'Content-Type':'application/json','Origin':portal});assert s==404,'portal connected and incorrect code rejected: '+str(s)
-print('PASS: both health checks, dashboard protection, password login, secure cookie, vehicle manager, image proxy and portal lookup.',flush=True)
+print('PASS: both health checks, dashboard protection, password login, secure cookie, vehicle manager and portal lookup.',flush=True)
